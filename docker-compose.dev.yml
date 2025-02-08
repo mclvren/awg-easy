@@ -1,5 +1,5 @@
 services:
-  wg-easy:
+  awg-easy:
     build:
       dockerfile: ./Dockerfile
     command: npm run serve
@@ -14,4 +14,4 @@ services:
       - SYS_MODULE
     environment:
       # - PASSWORD_HASH=p
-      - WG_HOST=192.168.1.233
+      - WG_HOST=aorus.lan

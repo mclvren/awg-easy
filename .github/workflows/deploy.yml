@@ -4,20 +4,20 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - production
+      - master
 
 jobs:
   deploy:
     name: Build & Deploy
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'wg-easy'
+    if: github.repository_owner == 'mclvren'
     permissions:
       packages: write
       contents: read
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: production
+        ref: master
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
@@ -40,4 +40,4 @@ jobs:
       with:
         push: true
         platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8
-        tags: ghcr.io/wg-easy/wg-easy:latest, ghcr.io/wg-easy/wg-easy:${{ env.RELEASE }}
+        tags: ghcr.io/mclvren/awg-easy:latest, ghcr.io/mclvren/awg-easy:${{ env.RELEASE }}

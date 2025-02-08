@@ -1,12 +1,12 @@
-# WireGuard Easy
+# AmneziaWG Easy
 
-[![Build & Publish Docker Image to Docker Hub](https://github.com/wg-easy/wg-easy/actions/workflows/deploy.yml/badge.svg?branch=production)](https://github.com/wg-easy/wg-easy/actions/workflows/deploy.yml)
-[![Lint](https://github.com/wg-easy/wg-easy/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/wg-easy/wg-easy/actions/workflows/lint.yml)
-![Docker](https://img.shields.io/docker/pulls/weejewel/wg-easy.svg)
-[![Sponsor](https://img.shields.io/github/sponsors/weejewel)](https://github.com/sponsors/WeeJeWel)
-![GitHub Stars](https://img.shields.io/github/stars/wg-easy/wg-easy)
+[![Build & Publish Docker Image to Docker Hub](https://github.com/mclvren/awg-easy/actions/workflows/deploy.yml/badge.svg?branch=production)](https://github.com/mclvren/awg-easy/actions/workflows/deploy.yml)
 
-You have found the easiest way to install & manage WireGuard on any Linux host!
+> * Based on [wg-easy](https://github.com/wg-easy/wg-easy) by Emile Nijssen.
+> * Used integrations with AmneziaWG from [amnezia-wg-easy](https://github.com/spcfox/amnezia-wg-easy) by Viktor Yudov.
+> * Adapted for [AmneziaWG kernel module](https://github.com/amnezia-vpn/amneziawg-linux-kernel-module)
+
+You have found the easiest way to install & manage AmneziaWG on any Linux host!
 
 <p align="center">
   <img src="./assets/screenshot.png" width="802" />
@@ -14,7 +14,7 @@ You have found the easiest way to install & manage WireGuard on any Linux host!
 
 ## Features
 
-* All-in-one: WireGuard + Web UI.
+* All-in-one: AmneziaWG + Web UI.
 * Easy installation, simple to use.
 * List, create, edit, delete, enable & disable clients.
 * Show a client's QR code.
@@ -31,27 +31,18 @@ You have found the easiest way to install & manage WireGuard on any Linux host!
 
 ## Requirements
 
-* A host with a kernel that supports WireGuard (all modern kernels).
+* A host with [AmneziaWG kernel module](https://github.com/amnezia-vpn/amneziawg-linux-kernel-module).
 * A host with Docker installed.
-
-## Versions
-
-> 💡 For the **stable** version please read instructions on the
-> [**production** branch](https://github.com/wg-easy/wg-easy/tree/production)!
-
-We provide more than 1 docker image tag, the following will help you decide
-which one suites the best for you.
-
-| tag | Branch | Example | Description |
-| - | - | - | - |
-| `latest` | [`production`](https://github.com/wg-easy/wg-easy/tree/production) | `ghcr.io/wg-easy/wg-easy:latest` or `ghcr.io/wg-easy/wg-easy` | stable as possbile get bug fixes quickly when needed, deployed against [`production`](https://github.com/wg-easy/wg-easy/tree/production). |
-| `14` | [`production`](https://github.com/wg-easy/wg-easy/tree/production) | `ghcr.io/wg-easy/wg-easy:14` | same as latest, stick to a version tag. |
-| `nightly` | [`master`](https://github.com/wg-easy/wg-easy/tree/master) | `ghcr.io/wg-easy/wg-easy:nightly` | mostly unstable gets frequent package and code updates, deployed against [`master`](https://github.com/wg-easy/wg-easy/tree/master). |
-| `development` | pull requests | `ghcr.io/wg-easy/wg-easy:development` | used for development, testing code from PRs before landing into [`master`](https://github.com/wg-easy/wg-easy/tree/master). |
 
 ## Installation
 
-### 1. Install Docker
+### 1. Install AmneziaWG kernel module
+
+* [AmneziaWG kernel module README](https://github.com/amnezia-vpn/amneziawg-linux-kernel-module?tab=readme-ov-file#installation)
+* [Installing AmneziaWG and other necessary utilities on a VDS server](https://github.com/openwrt-xiaomi/awg-openwrt/wiki/AmneziaWG-installing#%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-amneziawg-%D0%B8-%D0%B4%D1%80%D1%83%D0%B3%D0%B8%D1%85-%D0%BD%D1%83%D0%B6%D0%BD%D1%8B%D1%85-%D1%83%D1%82%D0%B8%D0%BB%D0%B8%D1%82-%D0%BD%D0%B0-vds-%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%B5)
+
+
+### 2. Install Docker
 
 If you haven't installed Docker yet, install it by running:
 
@@ -63,19 +54,19 @@ exit
 
 And log in again.
 
-### 2. Run WireGuard Easy
+### 3. Run AmneziaWG Easy
 
-To automatically install & run wg-easy, simply run:
+To automatically install & run awg-easy, simply run:
 
 ```shell
 docker run --detach \
-  --name wg-easy \
+  --name awg-easy \
   --env LANG=de \
   --env WG_HOST=<🚨YOUR_SERVER_IP> \
   --env PASSWORD_HASH='<🚨YOUR_ADMIN_PASSWORD_HASH>' \
   --env PORT=51821 \
   --env WG_PORT=51820 \
-  --volume ~/.wg-easy:/etc/wireguard \
+  --volume ~/.awg-easy:/etc/amnezia/amneziawg \
   --publish 51820:51820/udp \
   --publish 51821:51821/tcp \
   --cap-add NET_ADMIN \
@@ -83,7 +74,7 @@ docker run --detach \
   --sysctl 'net.ipv4.conf.all.src_valid_mark=1' \
   --sysctl 'net.ipv4.ip_forward=1' \
   --restart unless-stopped \
-  ghcr.io/wg-easy/wg-easy
+  ghcr.io/mclvren/awg-easy
 ```
 
 > 💡 Replace `<🚨YOUR_SERVER_IP>` with your WAN IP, or a Dynamic DNS hostname.
@@ -99,11 +90,6 @@ The Prometheus metrics will now be available on `http://0.0.0.0:51821/metrics`. 
 WireGuard Easy can be launched with Docker Compose as well - just download
 [`docker-compose.yml`](docker-compose.yml), make necessary adjustments and
 execute `docker compose up --detach`.
-
-### 3. Sponsor
-
-Are you enjoying this project? [Buy Emile a beer!](https://github.com/sponsors/WeeJeWel) 🍻 <br>
-Donation to core component: [WireGuard](https://www.wireguard.com/donations/)
 
 ## Options
 
@@ -136,6 +122,15 @@ These options can be configured by setting environment variables using `-e KEY="
 | `UI_ENABLE_SORT_CLIENTS` | `false` | `true`                         | Enable UI sort clients by name   |
 | `ENABLE_PROMETHEUS_METRICS` | `false` | `true`                       | Enable Prometheus metrics `http://0.0.0.0:51821/metrics` and `http://0.0.0.0:51821/metrics/json`|
 | `PROMETHEUS_METRICS_PASSWORD` | - | `$2y$05$Ci...` | If set, Basic Auth is required when requesting metrics. See [How to generate an bcrypt hash.md]("https://github.com/wg-easy/wg-easy/blob/master/How_to_generate_an_bcrypt_hash.md") for know how generate the hash. |
+| `JC` | `random` | `5` | Junk packet count — number of packets with random data that are sent before the start of the session. |
+| `JMIN` | `50` | `25` | Junk packet minimum size — minimum packet size for Junk packet. That is, all randomly generated packets will have a size no smaller than Jmin. |
+| `JMAX` | `1000` | `250` | Junk packet maximum size — maximum size for Junk packets. |
+| `S1` | `random` | `75` | Init packet junk size — the size of random data that will be added to the init packet, the size of which is initially fixed. |
+| `S2` | `random` | `75` | Response packet junk size — the size of random data that will be added to the response packet, the size of which is initially fixed. |
+| `H1` | `random` | `1234567891` | Init packet magic header — the header of the first byte of the handshake. Must be < uint_max. |
+| `H2` | `random` | `1234567892` | Response packet magic header — header of the first byte of the handshake response. Must be < uint_max. |
+| `H3` | `random` | `1234567893` | Underload packet magic header — UnderLoad packet header. Must be < uint_max. |
+| `H4` | `random` | `1234567894` | Transport packet magic header — header of the packet of the data packet. Must be < uint_max. |
 
 > If you change `WG_PORT`, make sure to also change the exposed port.
 
@@ -144,19 +139,19 @@ These options can be configured by setting environment variables using `-e KEY="
 To update to the latest version, simply run:
 
 ```shell
-docker stop wg-easy
-docker rm wg-easy
-docker pull ghcr.io/wg-easy/wg-easy
+docker stop awg-easy
+docker rm awg-easy
+docker pull ghcr.io/mclvren/awg-easy
 ```
 
 And then run the `docker run -d \ ...` command above again.
 
-With Docker Compose WireGuard Easy can be updated with a single command:
+With Docker Compose AmneziaWG Easy can be updated with a single command:
 `docker compose up --detach --pull always` (if an image tag is specified in the
 Compose file and it is not `latest`, make sure that it is changed to the desired
 one; by default it is omitted and
 [defaults to `latest`](https://docs.docker.com/engine/reference/run/#image-references)). \
-The WireGuared Easy container will be automatically recreated if a newer image
+The AmneziaWG Easy container will be automatically recreated if a newer image
 was pulled.
 
 ## Common Use Cases
