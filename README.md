@@ -1,6 +1,6 @@
 # AmneziaWG Easy
 
-[![Build & Publish Docker Image to Docker Hub](https://github.com/mclvren/awg-easy/actions/workflows/deploy.yml/badge.svg?branch=production)](https://github.com/mclvren/awg-easy/actions/workflows/deploy.yml)
+[![Build & Publish Latest](https://github.com/mclvren/awg-easy/actions/workflows/deploy.yml/badge.svg)](https://github.com/mclvren/awg-easy/actions/workflows/deploy.yml)
 
 > * Based on [wg-easy](https://github.com/wg-easy/wg-easy) by Emile Nijssen.
 > * Used integrations with AmneziaWG from [amnezia-wg-easy](https://github.com/spcfox/amnezia-wg-easy) by Viktor Yudov.
